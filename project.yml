@@ -8,6 +8,7 @@ targets:
     deploymentTarget: "18.0"
     sources: [Sources]
     info:
+      path: Info.plist
       properties:
         UILaunchScreen: {}
         NSSpeechRecognitionUsageDescription: "Requerido para transcribir el audio del vídeo."
