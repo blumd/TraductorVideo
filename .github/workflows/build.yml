@@ -1,0 +1,43 @@
+name: Compilar App iOS
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Instalar creador de proyectos
+        run: brew install xcodegen
+        
+      - name: Generar proyecto de Xcode
+        run: xcodegen generate
+        
+      - name: Compilar App
+        run: |
+          xcodebuild clean build \
+            -project TraductorVideo.xcodeproj \
+            -scheme TraductorVideo \
+            -configuration Release \
+            -sdk iphoneos \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_IDENTITY="" \
+            PROVISIONING_PROFILE_SPECIFIER="" \
+            SYMROOT=$(PWD)/build
+            
+      - name: Empaquetar IPA
+        run: |
+          mkdir -p Payload
+          mv build/Release-iphoneos/TraductorVideo.app Payload/
+          zip -r TraductorVideo.ipa Payload
+          
+      - name: Subir archivo instalable
+        uses: actions/upload-artifact@v4
+        with:
+          name: App-Instalable-IPA
+          path: TraductorVideo.ipa
