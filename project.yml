@@ -1,0 +1,14 @@
+name: TraductorVideo
+options:
+  bundleIdPrefix: com.tu-nombre
+targets:
+  TraductorVideo:
+    type: application
+    platform: iOS
+    deploymentTarget: "18.0"
+    sources: [Sources]
+    info:
+      properties:
+        UILaunchScreen: {}
+        NSSpeechRecognitionUsageDescription: "Requerido para transcribir el audio del vídeo."
+        NSMicrophoneUsageDescription: "Requerido por el framework de audio."
